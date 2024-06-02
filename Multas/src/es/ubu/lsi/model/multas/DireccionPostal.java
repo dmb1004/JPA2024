@@ -2,7 +2,7 @@ package es.ubu.lsi.model.multas;
 
 import javax.persistence.*;
 
-@Embeddable //clase embebida
+@Embeddable // Clase embebida
 public class DireccionPostal {
 
 	private String ciudad;
@@ -11,8 +11,7 @@ public class DireccionPostal {
 	
 	private String direccion;
 	
-	
-	//getter y setter Ciudad
+	// Getter y setter Ciudad
 	public String getCiudad() {
 		return this.ciudad;
 	}
@@ -21,7 +20,7 @@ public class DireccionPostal {
 		this.ciudad = ciudad;
 	}
 	
-	//getter y setter cp
+	// Getter y setter cp
 	public String getCp() {
 		return this.cp;
 	}
@@ -30,7 +29,7 @@ public class DireccionPostal {
 		this.cp = cp;
 	}
 	
-	//getter y setter direccion
+	// Getter y setter direccion
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -39,7 +38,7 @@ public class DireccionPostal {
 		this.direccion = direccion;
 	}
 	
-	//Método toString de la clase embebida DireccionPostal
+	// Método toString de la clase embebida DireccionPostal
 	@Override
 	public String toString() {
 		return "DireccionPostal [direccion=" + this.getDireccion() + ", codigoPostal=" + this.getCp() + ", ciudad="

@@ -1,5 +1,6 @@
 package es.ubu.lsi.model.multas;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
 	@NamedQuery(name = "Conductor.findAll", query = "SELECT c FROM Conductor c")
 })
 public class Conductor {
+	private static final long serialVersionUID = 1L;
 
 	@Id // Primary key
 	private String nif;
@@ -22,8 +24,9 @@ public class Conductor {
 	private String nombre;
 
 	private BigDecimal puntos;
-
+	
 	// relación varios a uno, se usa IDAUTO como clave foranea
+
 	@ManyToOne
 	@JoinColumn(name = "IDAUTO")
 	private Vehiculo vehiculo;
@@ -81,18 +84,18 @@ public class Conductor {
 		return this.vehiculo;
 	}
 
-    public void setVehiculo(Vehiculo vehiculo) {
-        if (this.vehiculo != null && this.vehiculo != vehiculo) 
-            this.vehiculo.getConductores().remove(this);
-        
-        this.vehiculo = vehiculo;
-        
-        if (vehiculo != null && !vehiculo.getConductores().contains(this)) 
-            vehiculo.getConductores().add(this);
-        
-    }
+	public void setVehiculo(Vehiculo vehiculo) {
 
-	//getter y setter Incidencias
+        if (this.vehiculo != null && this.vehiculo != vehiculo) 
+        	getVehiculo().getConductores().remove(this);
+
+		this.vehiculo = vehiculo;
+
+		if (vehiculo != null && !vehiculo.getConductores().contains(this)) {
+			vehiculo.getConductores().add(this);
+		}
+	}
+
 	public Set<Incidencia> getIncidencias() {
 		return this.incidencias;
 	}
@@ -101,20 +104,26 @@ public class Conductor {
 		this.incidencias = incidencias;
 	}
 
-    public void addIncidencia(Incidencia incidencia) {
-        if (incidencia != null) {
-            incidencias.add(incidencia);
-            incidencia.setConductor(this);
-        }
-    }
+	public Incidencia addIncidencia(Incidencia incidencia) {
+		if (incidencia != null && !getIncidencias().contains(incidencia)) {
+			
+            getIncidencias().add(incidencia);
 
-    public void removeIncidencia(Incidencia incidencia) {
-        if (incidencias.remove(incidencia))
+			if (incidencia.getConductor() != null) {
+				incidencia.getConductor().getIncidencias().remove(incidencia);
+			}
+			incidencia.setConductor(this);
+		}
+		return incidencia;
+	}
+
+	public Incidencia removeIncidencia(Incidencia incidencia) {
+		if (incidencias.remove(incidencia))
             incidencia.setConductor(null);
-     
-    }
 
-	//getter y setter direccionPostal
+		return incidencia;
+	}
+
 	public void setDireccionPostal(DireccionPostal direccionPostal) {
 		this.direccionPostal = direccionPostal;
 	}

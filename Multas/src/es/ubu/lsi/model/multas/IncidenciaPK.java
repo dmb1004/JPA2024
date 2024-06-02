@@ -3,22 +3,21 @@ package es.ubu.lsi.model.multas;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-@Embeddable //tipo embedido, ejerciendo de clave primaria compuesta, por lo que debe implementar serializable
+@Embeddable // Tipo embedido, ejerciendo de clave primaria compuesta, por lo que debe implementar serializable
 public class IncidenciaPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	//se mapea a una columna timeStamp de la base de datos
+	// Se mapea a una columna timeStamp de la base de datos
 	@Temporal(TemporalType.TIMESTAMP) 
 	private java.util.Date fecha;
 	
-	//no se insertará y actualizará directamente en la bd.
+	// No se insertará y actualizará directamente en la bd.
 	@Column(insertable = false, updatable = false) 
 	private String nif;
 	
-	//constructor público no-args
-	public IncidenciaPK() { 
+	// Constructor público no-args
+	public IncidenciaPK() {
 	}
 	
 	public IncidenciaPK(String nif, java.util.Date fecha) {
@@ -26,7 +25,7 @@ public class IncidenciaPK implements Serializable {
 		this.fecha = fecha;
 	}
 	
-	//getter y setter Fecha
+	// Getter y setter Fecha
 	public java.util.Date getFecha() {
 		return this.fecha;
 	}
@@ -35,7 +34,7 @@ public class IncidenciaPK implements Serializable {
 		this.fecha = fecha;
 	}
 	
-	//getter y setter NIF
+	// Getter y setter NIF
 	public String getNif() {
 		return this.nif;
 	}
@@ -44,7 +43,7 @@ public class IncidenciaPK implements Serializable {
 		this.nif = nif;
 	}
 	
-	//Método toString del tipo embedido incidenciaPK
+	// Método toString del tipo embedido incidenciaPK
 	@Override
 	public String toString() {
 		return "IncidenciaPK [fecha=" + this.getFecha() + ", nif=" + this.getNif() + "]";
@@ -53,12 +52,12 @@ public class IncidenciaPK implements Serializable {
 	// Método equals sobreescribido, requerimiento de clases que ejercen de clave compuesta
 	@Override
 	public boolean equals(Object other) {
-		if (this == other) 
+		if (this == other) {
 			return true;
-		
-		if (!(other instanceof IncidenciaPK)) 
+		}
+		if (!(other instanceof IncidenciaPK)) {
 			return false;
-		
+		}
 		IncidenciaPK castOther = (IncidenciaPK) other;
 		return this.fecha.equals(castOther.fecha) && this.nif.equals(castOther.nif);
 	}
@@ -70,7 +69,7 @@ public class IncidenciaPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.fecha.hashCode();
 		hash = hash * prime + this.nif.hashCode();
-		
+	
 		return hash;
 	}
 }

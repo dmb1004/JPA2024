@@ -1,41 +1,43 @@
 package es.ubu.lsi.model.multas;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Entity //Entidad
+// Entidad y implementación de consulta JPQL
+@Entity
 @NamedQueries({
     @NamedQuery(name = "TipoIncidencia.findAll", query = "SELECT t FROM TipoIncidencia t")
 })
 public class TipoIncidencia {
-	
+	private static final long serialVersionUID = 1L;
+
 	@Id // Primary Key
 	private long id;
 	
 	private String descripcion;
 	
 	private BigDecimal valor;
-	
-	
-	//relación uno a muchos con la entidad Incidencia, el campo "tipoIncidencia" es el dueño de la realción.
+		
+	// Relación uno a muchos con la entidad Incidencia, el campo "tipoIncidencia" es el propietario de la realción.
 	@OneToMany(mappedBy = "tipoIncidencia")
 	private Set<Incidencia> incidencias;
 	
-	//constructor público no-args necesario en entidades
+	// Constructor público no-args necesario en entidades
 	public TipoIncidencia() {
 	}
 	
-	//getter y setter ID
+	// Getter y setter ID
 	public long getId() {
-	return this.id;
+		return this.id;
 	}
 	
 	public void setId(long id) {
 		this.id = id;
 	}
 	
-	//getter y setter Descripcion
+	// Getter y setter Descripcion
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -44,7 +46,7 @@ public class TipoIncidencia {
 		this.descripcion = descripcion;
 	}
 	
-	// getter y setter Valor
+	// Getter y setter Valor
 	public BigDecimal getValor() {
 		return this.valor;
 	}
@@ -53,7 +55,7 @@ public class TipoIncidencia {
 		this.valor = valor;
 	}
 	
-	// getter y setter Incidencias
+	// Getter y setter Incidencias
 	public Set<Incidencia> getIncidencias() {
 		return this.incidencias;
 	}
@@ -62,31 +64,38 @@ public class TipoIncidencia {
 		this.incidencias = incidencias;
 	}
 	
-	/*
+	// Función para añadir una incidencia al tipo
 	public Incidencia addIncidencia(Incidencia incidencia) {
-	    if (incidencia != null) {
-	        // Asegura que la incidencia no está ya asociada a este tipo de incidencia
-	        if (!getIncidencias().contains(incidencia)) {
+		if (incidencia != null && !getIncidencias().contains(incidencia)) {
+		// Asegura que la incidencia no está ya asociada a este tipo de incidencia
+			
+			if (!getIncidencias().contains(incidencia)) {
 	            getIncidencias().add(incidencia);
 	        }
 	        // Asegura que la incidencia está apuntando a este tipo de incidencia
-	        if (incidencia.getTipoIncidencia() != this) {
+
+			if (incidencia.getTipoIncidencia() != null) {
+				incidencia.getTipoIncidencia().getIncidencias().remove(incidencia);
+			}
+			if (incidencia.getTipoIncidencia() != this) {
 	            incidencia.setTipoIncidencia(this);
-	        }
-	    }
-	    return incidencia;
+    		}
+		}
+		return incidencia;
 	}
-		
+	
+	// Función para borrar una incidencia al tipo
 	public Incidencia removeIncidencia(Incidencia incidencia) {
-	    if (incidencia != null && getIncidencias().contains(incidencia)) {
+		if (incidencia != null && getIncidencias().contains(incidencia)) {
 	        getIncidencias().remove(incidencia);
 	        if (incidencia.getTipoIncidencia() == this) {
 	            incidencia.setTipoIncidencia(null);
 	        }
 	    }
 	    return incidencia;
-	}*/
-	
+	}
+		
+	// Método toString de la entidad TipoIncidencia
 	@Override
 	public String toString() {
 		return "TipoIncidencia [id=" + this.getId() + ", descripcion=" + this.getDescripcion() + ", valor="

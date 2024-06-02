@@ -1,9 +1,11 @@
 package es.ubu.lsi.model.multas;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity //Entidad
+// Anotación de entidad, implementación de consultas JPQL y de grafos
+@Entity // Entidad
 @NamedQueries({
     @NamedQuery(name = "Vehiculo.findAll", query = "SELECT v FROM Vehiculo v")
 })
@@ -31,25 +33,26 @@ import java.util.Set;
 })
 
 public class Vehiculo {
+	private static final long serialVersionUID = 1L;
 	
-	@Id //Primary Key
+	@Id // Primary Key
 	private String idauto;
 	
 	private String nombre;
 	
-	@Embedded //objeto embebido
+	@Embedded // Objeto embebido
 	private DireccionPostal direccionPostal;
 	
-	//relación uno a muchos con la entidad conductor, el campo "vehiculo" de la entidad Conductor es el dueño de la realción.
-	//Aplicamos cascada para que todas las operaciones de persistencia realizadas en Vehiculo se propagen a Conductor.
-	@OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
+	// Relación uno a muchos con la entidad conductor, el campo "vehiculo" de la entidad Conductor es el propietario de la realción.
+	// Aplicamos cascada para que todas las operaciones de persistencia realizadas en Vehiculo se propagen a Conductor.
+	@OneToMany(mappedBy = "vehiculo")
 	private Set<Conductor> conductores;
 	
-	//constructor sin público sin arugmentos, requerimiento para convertir POJO a entidad
+	// Constructor público sin arugmentos, requerimiento para convertir POJO a entidad
 	public Vehiculo() {
 	}
 	
-	//getter y setter Idauto
+	// Getter y setter Idauto
 	public String getIdauto() {
 		return this.idauto;
 	}
@@ -58,7 +61,7 @@ public class Vehiculo {
 		this.idauto = idauto;
 	}
 	
-	//getter y setter Nombre
+	// Getter y setter Nombre
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -67,7 +70,7 @@ public class Vehiculo {
 		this.nombre = nombre;
 	}
 	
-	//getter y setter DireccionPostal
+	// Getter y setter DireccionPostal
 	public void setDireccionPostal(DireccionPostal direccionPostal) {
 		this.direccionPostal = direccionPostal;
 	}
@@ -76,7 +79,7 @@ public class Vehiculo {
 		return this.direccionPostal;
 	}
 	
-	//getter y setter Conductores
+	// Getter y setter Conductores
 	public Set<Conductor> getConductores() {
 		return this.conductores;
 	}
@@ -85,7 +88,7 @@ public class Vehiculo {
 		this.conductores = conductores;
 	}
 	
-	/*
+	// Función para añadir un conducto al vehículo
 	public Conductor addConductor(Conductor conductor) {
 		if (conductor != null && !getConductores().contains(conductor)) {
 			getConductores().add(conductor);
@@ -96,16 +99,17 @@ public class Vehiculo {
 		return conductor;
 	}
 	
+	// Función para borrar a un conductor del vehículo
 	public Conductor removeConductor(Conductor conductor) {
 		getConductores().remove(conductor);
 		conductor.setVehiculo(null);
 		return conductor;
-	}*/
+	}
 	
-	// Método toString entidad Vehiculo
+	// Método toString de la entidad Vehiculo
 	@Override
 	public String toString() {
-		return "Vehiculo [idauto=" + idauto + ", nombre=" + nombre + ", direccionPostal=" + direccionPostal
-				+ ", conductores=" + conductores + "]";
+		return "Vehiculo [idauto=" + this.getIdauto() + ", nombre= " + this.getNombre() + ", direccionPostal= "
+		+ this.getDireccionPostal() + "]";
 	}
 }

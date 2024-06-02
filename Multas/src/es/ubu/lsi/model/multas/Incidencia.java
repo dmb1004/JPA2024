@@ -1,8 +1,9 @@
 package es.ubu.lsi.model.multas;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
-
+// Anotaciones de entidad y definición del conjunto de consultas JPQL
 @Entity
 @NamedQueries({ 
 	@NamedQuery(name = "Incidencia.findAll", query = "SELECT i FROM Incidencia i"),
@@ -11,20 +12,20 @@ import javax.persistence.*;
 })
 public class Incidencia {
 
-	@EmbeddedId //ltipo embebido que actua como primary key compuesta
+	@EmbeddedId // Tipo embebido que actua como primary key compuesta
 	private IncidenciaPK id;
 
-	@Lob //para almacenar grandes catidades de datos
+	@Lob // Anotación para almacenar grandes cantidades de datos
 	private String anotacion;
 
-	// relación varios a uno, se mapea a través del campo nif de la entidad Conductor. Forma parte de la clave primaria compuesta.
+	// Relación varios a uno, se mapea a través del campo nif de la entidad Conductor. Forma parte de la clave primaria compuesta.
 	// JoinColumn se usa para especificar la columna que actua como clave foranea
 	@MapsId("nif") 
 	@ManyToOne
 	@JoinColumn(name = "NIF")
 	private Conductor conductor;
 
-	// relación varios a uno, se usa IDTIPO como clave foranea
+	// Relación varios a uno, se usa IDTIPO como clave foranea
 	@ManyToOne
 	@JoinColumn(name = "IDTIPO")
 	private TipoIncidencia tipoIncidencia;
@@ -34,31 +35,32 @@ public class Incidencia {
 	}
 
 	public Incidencia(IncidenciaPK id, String anotacion, Conductor conductor, TipoIncidencia tipoIncidencia) {
-		this.id = id;
-		this.anotacion = anotacion;
-		this.conductor = conductor;
-		this.tipoIncidencia = tipoIncidencia;
-	}
+        this.id = id;
+        this.anotacion = anotacion;
+        this.conductor = conductor;
+        this.tipoIncidencia = tipoIncidencia;
+    }
 
-	//setter y getter para Id
+	// Getter y setter para Id
 	public IncidenciaPK getId() {
 		return this.id;
 	}
 
+	
 	public void setId(IncidenciaPK id) {
 		this.id = id;
 	}
 
-	//setter y getter para Anotacion
+	// Getter y setter para Anotacion
 	public String getAnotacion() {
 		return this.anotacion;
 	}
-
+	
 	public void setAnotacion(String anotacion) {
 		this.anotacion = anotacion;
 	}
 
-	//setter y getter para Conductor
+	// Getter y setter para Conductor
 	public Conductor getConductor() {
 		return this.conductor;
 	}
@@ -78,7 +80,7 @@ public class Incidencia {
 		
 	}
 
-	//setter y getter para tipoIncidencia
+	// Getter y setter para tipoIncidencia
 	public TipoIncidencia getTipoIncidencia() {
 		return this.tipoIncidencia;
 	}
@@ -99,7 +101,7 @@ public class Incidencia {
 
 	}
 
-	//Método toString de la entidad Incidencia
+	// Método toString de la entidad Incidencia
 	@Override
 	public String toString() {
 		return "Incidencia [id= " + this.getId() + ", anotacion=" + this.getAnotacion() + ", conductor="
