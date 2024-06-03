@@ -1,6 +1,5 @@
 package es.ubu.lsi.model.multas;
 
-import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Set;
 

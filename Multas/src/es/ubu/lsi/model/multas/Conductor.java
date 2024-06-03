@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity // Entidad
 @NamedQueries({
-		@NamedQuery(name = "Conductor.findAll", query = "SELECT c FROM Conductor c")
+	@NamedQuery(name = "Conductor.findAll", query = "SELECT c FROM Conductor c")
 })
 public class Conductor {
 
@@ -23,27 +23,26 @@ public class Conductor {
 	private String nombre;
 
 	private BigDecimal puntos;
-
+	
 	// relación varios a uno, se usa IDAUTO como clave foranea
 
 	@ManyToOne
 	@JoinColumn(name = "IDAUTO")
 	private Vehiculo vehiculo;
 
-	// /relación uno a muchos con la entidad Incidencia, el campo "conductor" de la
-	// entidad Incidencia es el dueño de la realción.
+	// /relación uno a muchos con la entidad Incidencia, el campo "conductor" de la entidad Incidencia es el dueño de la realción.
 	@OneToMany(mappedBy = "conductor")
 	private Set<Incidencia> incidencias;
 
-	// Tipo embebido
+	// Tipo embebido 
 	@Embedded
 	private DireccionPostal direccionPostal;
 
-	// constructor público no-args
+	//constructor público no-args
 	public Conductor() {
 	}
 
-	// getter y setter NIF
+	//getter y setter NIF
 	public String getNif() {
 		return this.nif;
 	}
@@ -52,7 +51,7 @@ public class Conductor {
 		this.nif = nif;
 	}
 
-	// getter y setter apellido
+	//getter y setter apellido
 	public String getApellido() {
 		return this.apellido;
 	}
@@ -61,7 +60,7 @@ public class Conductor {
 		this.apellido = apellido;
 	}
 
-	// getter y setter nombre
+	//getter y setter nombre
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -70,7 +69,7 @@ public class Conductor {
 		this.nombre = nombre;
 	}
 
-	// getter y setter puntos
+	//getter y setter puntos
 	public BigDecimal getPuntos() {
 		return this.puntos;
 	}
@@ -79,15 +78,15 @@ public class Conductor {
 		this.puntos = puntos;
 	}
 
-	// getter y setter Vehiculo
+	//getter y setter Vehiculo
 	public Vehiculo getVehiculo() {
 		return this.vehiculo;
 	}
 
 	public void setVehiculo(Vehiculo vehiculo) {
 
-		if (this.vehiculo != null && this.vehiculo != vehiculo)
-			getVehiculo().getConductores().remove(this);
+        if (this.vehiculo != null && this.vehiculo != vehiculo) 
+        	getVehiculo().getConductores().remove(this);
 
 		this.vehiculo = vehiculo;
 
@@ -106,8 +105,8 @@ public class Conductor {
 
 	public void addIncidencia(Incidencia incidencia) {
 		if (incidencia != null && !getIncidencias().contains(incidencia)) {
-
-			getIncidencias().add(incidencia);
+			
+            getIncidencias().add(incidencia);
 
 			if (incidencia.getConductor() != null) {
 				incidencia.getConductor().getIncidencias().remove(incidencia);
@@ -118,7 +117,7 @@ public class Conductor {
 
 	public void removeIncidencia(Incidencia incidencia) {
 		if (incidencias.remove(incidencia))
-			incidencia.setConductor(null);
+            incidencia.setConductor(null);
 	}
 
 	public void setDireccionPostal(DireccionPostal direccionPostal) {
