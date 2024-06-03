@@ -5,10 +5,10 @@ import javax.persistence.*;
 
 // Anotaciones de entidad y definición del conjunto de consultas JPQL
 @Entity
-@NamedQueries({ 
-	@NamedQuery(name = "Incidencia.findAll", query = "SELECT i FROM Incidencia i"),
-	@NamedQuery(name = "Incidencia.deleteAllWithNIF", query = "DELETE FROM Incidencia i WHERE i.id.nif = :p"),
-	@NamedQuery(name = "Incidencia.findByConductor", query = "SELECT i FROM Incidencia i WHERE i.id.nif = :nif")
+@NamedQueries({
+		@NamedQuery(name = "Incidencia.findAll", query = "SELECT i FROM Incidencia i"),
+		@NamedQuery(name = "Incidencia.deleteAllWithNIF", query = "DELETE FROM Incidencia i WHERE i.id.nif = :p"),
+		@NamedQuery(name = "Incidencia.findByConductor", query = "SELECT i FROM Incidencia i WHERE i.id.nif = :nif")
 })
 public class Incidencia {
 
@@ -18,9 +18,10 @@ public class Incidencia {
 	@Lob // Anotación para almacenar grandes cantidades de datos
 	private String anotacion;
 
-	// Relación varios a uno, se mapea a través del campo nif de la entidad Conductor. Forma parte de la clave primaria compuesta.
+	// Relación varios a uno, se mapea a través del campo nif de la entidad
+	// Conductor. Forma parte de la clave primaria compuesta.
 	// JoinColumn se usa para especificar la columna que actua como clave foranea
-	@MapsId("nif") 
+	@MapsId("nif")
 	@ManyToOne
 	@JoinColumn(name = "NIF")
 	private Conductor conductor;
@@ -35,18 +36,17 @@ public class Incidencia {
 	}
 
 	public Incidencia(IncidenciaPK id, String anotacion, Conductor conductor, TipoIncidencia tipoIncidencia) {
-        this.id = id;
-        this.anotacion = anotacion;
-        this.conductor = conductor;
-        this.tipoIncidencia = tipoIncidencia;
-    }
+		this.id = id;
+		this.anotacion = anotacion;
+		this.conductor = conductor;
+		this.tipoIncidencia = tipoIncidencia;
+	}
 
 	// Getter y setter para Id
 	public IncidenciaPK getId() {
 		return this.id;
 	}
 
-	
 	public void setId(IncidenciaPK id) {
 		this.id = id;
 	}
@@ -55,7 +55,7 @@ public class Incidencia {
 	public String getAnotacion() {
 		return this.anotacion;
 	}
-	
+
 	public void setAnotacion(String anotacion) {
 		this.anotacion = anotacion;
 	}
@@ -66,18 +66,18 @@ public class Incidencia {
 	}
 
 	public void setConductor(Conductor conductor) {
-		
+
 		// Eliminar esta Incidencia del conjunto de Incidencias del Conductor anterior
-		if (getConductor() != null) 
+		if (getConductor() != null)
 			getConductor().getIncidencias().remove(this);
-		
 
 		this.conductor = conductor;
 
-		// Agregar esta Incidencia al conjunto de Incidencias del nuevo Conductor si es necesario
-		if (conductor != null && !conductor.getIncidencias().contains(this)) 
+		// Agregar esta Incidencia al conjunto de Incidencias del nuevo Conductor si es
+		// necesario
+		if (conductor != null && !conductor.getIncidencias().contains(this))
 			conductor.getIncidencias().add(this);
-		
+
 	}
 
 	// Getter y setter para tipoIncidencia
@@ -87,17 +87,17 @@ public class Incidencia {
 
 	public void setTipoIncidencia(TipoIncidencia tipoIncidencia) {
 
-		// Eliminar esta Incidencia del conjunto de Incidencias del TipoIncidencia anterior
-		if (getTipoIncidencia() != null) 
+		// Eliminar esta Incidencia del conjunto de Incidencias del TipoIncidencia
+		// anterior
+		if (getTipoIncidencia() != null)
 			getTipoIncidencia().getIncidencias().remove(this);
-		
 
 		this.tipoIncidencia = tipoIncidencia;
 
-		// Agregar esta Incidencia al conjunto de Incidencias del nuevo TipoIncidencia si es necesario
-		if (tipoIncidencia != null && !tipoIncidencia.getIncidencias().contains(this)) 
+		// Agregar esta Incidencia al conjunto de Incidencias del nuevo TipoIncidencia
+		// si es necesario
+		if (tipoIncidencia != null && !tipoIncidencia.getIncidencias().contains(this))
 			tipoIncidencia.getIncidencias().add(this);
-		
 
 	}
 
